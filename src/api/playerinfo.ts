@@ -1,9 +1,16 @@
-import { Duration } from 'luxon';
+/*
+Copyright 2021-2023 Peter Repukat - FlatspotSoftware
+
+Use of this source code is governed by the MIT
+license that can be found in the LICENSE file or at
+https://opensource.org/licenses/MIT.
+*/
+
 import { lowerFirst } from '../utils/utils';
 import type { LowerFirst, UpperFirst } from '../utils/utiltypes';
 import { api } from './apibase';
 import type { ApiStats, Stats } from './types/stats';
-import { X4BaseDate, xDistanceToKmNumber, xDurationStringToDuration, xStringToNumber } from '../utils/x4utils';
+import { xDistanceToKmNumber, xDurationStringToDuration, xStringToNumber } from '../utils/x4utils';
 
 const basicPlayerCalls = {
     GetPlayerName: '' as string,
