@@ -19,7 +19,7 @@ $: commons = $gameCommons;
 
 <div class="player-info">
     <p>
-        {pInfo.playerName ?? ' '}{'\n'}{pInfo.playerFactionName ?? ' '}
+        {pInfo.playerName ?? ' '}{'\n'}<span class="faction">{pInfo.playerFactionName ?? ' '}</span>
     </p>
     <p>
         {pInfo.playerSectorName ?? ' '}
@@ -62,7 +62,6 @@ $: commons = $gameCommons;
     .player-info {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        margin: 4px;
         gap: 1em;
         background-color: #00000075;
         padding: 1em;
@@ -72,7 +71,6 @@ $: commons = $gameCommons;
 
     .player-info p {
         min-width: 40%;
-        padding: 0;
         margin: auto 0 auto 0;
         white-space: pre-line;
     }
@@ -82,6 +80,12 @@ $: commons = $gameCommons;
     }
 
     .credits-due {
+        opacity: 0.7;
+        font-size: 0.9em;
+    }
+
+    .faction {
+        font-size: 0.8em;
         opacity: 0.7;
     }
 
