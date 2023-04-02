@@ -17,24 +17,72 @@ $: commons = $gameCommons;
 
 </script>
 
-<div>
+<div class="player-info">
     <p>
-        {pInfo.playerName ?? ' '}
+        {pInfo.playerName ?? ' '}{'\n'}{pInfo.playerFactionName ?? ' '}
     </p>
     <p>
-        {pInfo.playerFactionName ?? ' '}
+        {pInfo.playerSectorName ?? ' '}
     </p>
     <p>
         {formatNumber(pInfo.playerMoney ?? 0, 'Cr')}
     </p>
     <p>
-        {
-            X4DateStr(
-                X4BaseDate()
-                    .plus(
-                        Duration.fromMillis((commons.currentGameTime ?? 0) * 1000)
-                    )
-            )
-        }
+        {X4DateStr(
+            X4BaseDate()
+                .plus(
+                    Duration.fromMillis((commons.currentGameTime ?? 0) * 1000)
+                )
+        )}
     </p>
+    {#if pInfo.creditsDueFromPlayerTrades || pInfo.creditsDueFromPlayerBuilds}
+        <p class="credits-due">
+            Credits due: {
+                formatNumber((pInfo.creditsDueFromPlayerTrades ?? 0) + (pInfo.creditsDueFromPlayerBuilds ?? 0), 'Cr')
+            }{
+                #if pInfo.creditsDueFromPlayerTrades && !pInfo.creditsDueFromPlayerBuilds
+            }{' '}(trades){/if}{
+                #if !pInfo.creditsDueFromPlayerTrades && pInfo.creditsDueFromPlayerBuilds
+            }{' '}(builds){/if}
+        </p>
+        {#if pInfo.creditsDueFromPlayerTrades && pInfo.creditsDueFromPlayerBuilds}
+            <p class="credits-due">
+                {#if pInfo.creditsDueFromPlayerTrades}
+                    Trades: {formatNumber(pInfo.creditsDueFromPlayerTrades ?? 0, 'Cr')}{'\n'}
+                {/if}
+                {#if pInfo.creditsDueFromPlayerBuilds}
+                    Builds: {formatNumber(pInfo.creditsDueFromPlayerBuilds ?? 0, 'Cr')}
+                {/if}
+            </p>
+        {/if}
+    {/if}
 </div>
+
+<style>
+    .player-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 4px;
+        gap: 1em;
+        background-color: #00000075;
+        padding: 1em;
+        border-radius: 8px;
+        box-shadow: 0px 4px 4px 0px #0000002a;
+    }
+
+    .player-info p {
+        min-width: 40%;
+        padding: 0;
+        margin: auto 0 auto 0;
+        white-space: pre-line;
+    }
+
+    .player-info :nth-child(even) {
+        text-align: end;
+    }
+
+    .credits-due {
+        opacity: 0.7;
+    }
+
+</style>

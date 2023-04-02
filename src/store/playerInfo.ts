@@ -6,6 +6,7 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.
 */
 
+import { ComponentsApi } from '../api/components';
 import { PlayerInfoApi } from '../api/playerinfo';
 import { createFetcherStoreFn } from './fetcherStoreUtil';
 
@@ -30,9 +31,34 @@ const P_INFO_CONFIG = {
         fn: PlayerInfoApi.getPlayerZoneID,
         intervalMs: 3000
     },
+    playerSectorName: {
+        data: {} as Record<string, string|number>,
+        fn: async (zoneId?: number) => {
+            if (!zoneId) {
+                return P_INFO_CONFIG.playerSectorName.data.lastName || '';
+            }
+            if (zoneId === P_INFO_CONFIG.playerSectorName.data.lastZoneId) {
+                return P_INFO_CONFIG.playerSectorName.data.lastName;
+            }
+            const sectorName = await ComponentsApi.getComponentData<[string]>(zoneId, ['sector']);
+            P_INFO_CONFIG.playerSectorName.data.lastName = sectorName;
+            P_INFO_CONFIG.playerSectorName.data.lastZoneId = zoneId;
+            return sectorName;
+        },
+        intervalMs: 250,
+        dependencies: ['playerZoneId']
+    },
     playerMoney: {
         fn: PlayerInfoApi.getPlayerMoney,
-        intervalMs: 1500
+        intervalMs: 3000
+    },
+    creditsDueFromPlayerTrades: {
+        fn: PlayerInfoApi.getCreditsDueFromPlayerTrades,
+        intervalMs: 3000
+    },
+    creditsDueFromPlayerBuilds: {
+        fn: PlayerInfoApi.getCreditsDueFromPlayerBuilds,
+        intervalMs: 3000
     },
     statistics: {
         fn: PlayerInfoApi.getStatistics,

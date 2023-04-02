@@ -11,9 +11,11 @@ import { pollingIntervals } from './pollingInterval';
 
 export function createFetcherStoreFn<T = undefined>(storeConfig: {
     [key: string]: {
-        fn: (...args: unknown[]) => Promise<unknown>;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fn: (...args: any[]) => Promise<unknown>|unknown;
         intervalMs: number;
-        dependencies?: string[] | undefined;
+        dependencies?: readonly string[] | string[] | undefined;
+        [K: string]: unknown;
     };
 }) {
 

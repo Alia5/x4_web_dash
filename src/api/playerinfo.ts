@@ -18,7 +18,9 @@ const basicPlayerCalls = {
     GetPlayerID: 0 as number,
     GetPlayerOccupiedShipID: 0 as number,
     GetPlayerZoneID: 0 as number,
-    GetPlayerMoney: 0 as number
+    GetPlayerMoney: 0 as number,
+    GetCreditsDueFromPlayerTrades: 0 as number,
+    GetCreditsDueFromPlayerBuilds: 0 as number
 } as const;
 
 export const PlayerInfoApi = {
