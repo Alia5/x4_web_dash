@@ -178,6 +178,7 @@ onDestroy(() => {
         display: flex;
         flex-direction: column;
         padding-right: var(--scrollBarWidth);
+        width: 100%;
     }
 
     .message-wrapper {
