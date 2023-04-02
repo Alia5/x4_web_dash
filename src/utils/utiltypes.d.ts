@@ -1,0 +1,2 @@
+export type LowerFirst<T extends string> = T extends `${infer First}${infer Rest}` ? `${Lowercase<First>}${Rest}` : never;
+export type UpperFirst<T extends string> = T extends `${infer First}${infer Rest}` ? `${Uppercase<First>}${Rest}` : never;
