@@ -1,15 +1,18 @@
 <script lang="ts">
+import MessageDisplay from '../components/MessageDisplay.svelte';
 import SideBar from '../components/SideBar.svelte';
 </script>
 
 <div class="base-grid">
     <SideBar />
+    <MessageDisplay />
 </div>
 
 <style>
   .base-grid {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-auto-flow: column;
+    grid-auto-columns: 25% 1fr;
     position: absolute;
     inset: 0;
   }
@@ -42,6 +45,10 @@ import SideBar from '../components/SideBar.svelte';
     padding: 0;
     scrollbar-width: thin;
     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+  }
+
+  :global(p) {
+    white-space: pre-line;
   }
 
   :global(button) {

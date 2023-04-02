@@ -6,6 +6,20 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.
 -->
 
+<script lang="ts" context="module">
+import { writable } from 'svelte/store';
+const createSelectedMessageStore = () => {
+    const { subscribe, set } = writable<Message|undefined>(undefined);
+    return {
+        subscribe,
+        set,
+        clear: () => set(undefined)
+    };
+};
+
+export const selectedMessage = createSelectedMessageStore();
+</script>
+
 <script lang="ts">
 import { Duration } from 'luxon';
 import { onDestroy, onMount } from 'svelte';
@@ -30,8 +44,6 @@ $: msgList = [...(msgStore?.messages?.messages || [])]
     .filter((msg) => msg.category === category || category === MessageCategory.ALL)
     .filter((msg) => msg.title.toLowerCase().includes(searchTerm.toLowerCase()))
     .sort((a, b) => b.time - a.time);
-
-let selectedMessage: Message|undefined = undefined;
 
 onMount(() => {
     pollingIntervals.set('messages', 2000);
@@ -77,15 +89,15 @@ onDestroy(() => {
                 <div class="message-wrapper" transition:fade|local>
                     <button
                         class={`message ${message.isread ? '' : 'unread'}`} 
-                        on:click={() => selectedMessage = message}
-                        class:message-selected={selectedMessage?.id === message.id}
+                        on:click={() => selectedMessage.set(message)}
+                        class:message-selected={$selectedMessage?.id === message.id}
                         transition:slide|local
                     >
-                        <p>{message.title}</p>
-                        <p>{
+                        <span>{message.title}</span>
+                        <span>{
                             (Duration.fromMillis(((currentGameTime || 0) - message.time) * 1000)
                                 .toFormat('dD hhH mm')+'m ago').toLowerCase().replace(/0d /g, '')
-                        }</p>
+                        }</span>
                     </button>
                 </div>
             {/each}
