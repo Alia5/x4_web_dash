@@ -47,15 +47,14 @@ button {
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.1);
     transition: all 0.2s ease-in-out;
     display: flex;
-}
-
-button:is(:hover, :focus) {
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.5);
-    background-color: var(--colorPrimaryHover);
-}
-button:is(:active) {
-    box-shadow: 0 0px 8px 0 rgb(0 0 0 / 0);
-    background-color: var(--colorPrimaryActive);
+    &:is(:hover, :focus) {
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.5);
+        background-color: var(--colorPrimaryHover);
+    }
+    &:is(:active) {
+        box-shadow: 0 0px 8px 0 rgb(0 0 0 / 0);
+        background-color: var(--colorPrimaryActive);
+    }
 }
 
 input {
@@ -69,7 +68,7 @@ input {
     border-radius: 0.5rem;
     box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.1);
     transition: all 0.2s ease-in-out;
-    ::placeholder {
+    &::placeholder {
         color: var(--textColor);
         opacity: 0.5;
     }
@@ -87,10 +86,10 @@ input {
 }
 
 *:is(:hover, :focus){
-    ::-webkit-scrollbar-track {
+    &::-webkit-scrollbar-track {
         background: var(--scrollbarBG);
     }   
-    ::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
         background-color: var(--thumbBG);
     }
 }

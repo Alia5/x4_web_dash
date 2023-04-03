@@ -214,18 +214,18 @@ onDestroy(() => {
     font-size: 0.9em;
     align-items: center;
 
-    :nth-child(even) {
+    & :nth-child(even) {
       text-align: end;
       white-space: nowrap;
       font-size: 0.8em;
       opacity: 0.7;
     }
 
-    :hover {
+    &:hover {
       border-bottom: 1px solid rgba(255, 255, 255, 0.66);
     }
 
-    :focus {
+    &:focus {
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     }
   }

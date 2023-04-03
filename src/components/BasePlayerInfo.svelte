@@ -72,7 +72,7 @@ $: commons = $gameCommons;
             margin: auto 0 auto 0;
             white-space: pre-line;
         }
-        :nth-child(even) {
+        & :nth-child(even) {
             text-align: end;
         }
     }
