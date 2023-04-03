@@ -58,7 +58,7 @@ $: commons = $gameCommons;
     {/if}
 </div>
 
-<style>
+<style lang="postcss">
     .player-info {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -67,16 +67,14 @@ $: commons = $gameCommons;
         padding: 1em;
         border-radius: 8px;
         box-shadow: 0px 4px 4px 0px #0000002a;
-    }
-
-    .player-info p {
-        min-width: 40%;
-        margin: auto 0 auto 0;
-        white-space: pre-line;
-    }
-
-    .player-info :nth-child(even) {
-        text-align: end;
+        & p {
+            min-width: 40%;
+            margin: auto 0 auto 0;
+            white-space: pre-line;
+        }
+        :nth-child(even) {
+            text-align: end;
+        }
     }
 
     .credits-due {
