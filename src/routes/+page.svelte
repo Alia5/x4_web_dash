@@ -3,7 +3,9 @@ import MessageDisplay from '../components/MessageDisplay.svelte';
 import SideBar from '../components/SideBar.svelte';
 
 const minPx = 100;
-let sidebarWidth = Number(window.localStorage.getItem('sidebarWidth')) || 0;
+let sidebarWidth = 
+    // Number(window.localStorage.getItem('sidebarWidth')) || 
+    0;
 let mouseDown = false;
 
 
@@ -13,7 +15,7 @@ let mouseDown = false;
 <div class="base-grid" style="--sidebarWidth: {sidebarWidth <= minPx ? '25%' : `${sidebarWidth}px`}" on:mouseup={() => mouseDown = false} on:mousemove={(ev) => {
     if (mouseDown) {
         sidebarWidth = ev.x;
-        window.localStorage.setItem('sidebarWidth', `${sidebarWidth}`);
+    // window.localStorage.setItem('sidebarWidth', `${sidebarWidth}`);
     }
 }}>
     <SideBar />
@@ -24,7 +26,7 @@ let mouseDown = false;
     <MessageDisplay />
 </div>
 
-<style>
+<style lang="postcss">
   .base-grid {
     display: grid;
     grid-auto-flow: column;
@@ -34,8 +36,11 @@ let mouseDown = false;
   }
 
   .handle {
-    background-color: #00000075;
+    background-color: transparent;
     cursor: ew-resize;
+    &:hover {
+        background-color: #0000001F;
+    }
   }
 
 </style>
