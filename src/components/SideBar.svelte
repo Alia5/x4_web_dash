@@ -8,7 +8,7 @@ https://opensource.org/licenses/MIT.
 
 <script lang="ts">
 import BasePlayerInfo from './BasePlayerInfo.svelte';
-import MessagesList from './MessagesList.svelte';
+import { sidebarContent } from '../store/sidebar';
 
 </script>
 
@@ -16,7 +16,11 @@ import MessagesList from './MessagesList.svelte';
 <div class="sidebar">
     <BasePlayerInfo />
 
-    <MessagesList />
+    <slot>
+    </slot>
+    {#if $sidebarContent}
+        <svelte:component this={$sidebarContent} />     
+    {/if}
 </div>
 
 <style>

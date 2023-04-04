@@ -11,47 +11,43 @@ import { Duration } from 'luxon';
 import { gameCommons } from '../store/gameCommons';
 import { playerInfo } from '../store/playerInfo';
 import { formatNumber, X4BaseDate, X4DateStr } from '../utils/x4utils';
-$: pInfo = $playerInfo;
-$: commons = $gameCommons;
-
-
 </script>
 
 <div class="player-info">
     <p>
-        {pInfo.playerName ?? ' '}{'\n'}<span class="faction">{pInfo.playerFactionName ?? ' '}</span>
+        {$playerInfo.playerName ?? ' '}{'\n'}<span class="faction">{$playerInfo.playerFactionName ?? ' '}</span>
     </p>
     <p>
-        {pInfo.playerSectorName ?? ' '}
+        {$playerInfo.playerSectorName ?? ' '}
     </p>
     <p>
-        {formatNumber(pInfo.playerMoney ?? 0, 'Cr')}
+        {formatNumber($playerInfo.playerMoney ?? 0, 'Cr')}
     </p>
     <p>
         {X4DateStr(
             X4BaseDate()
                 .plus(
-                    Duration.fromMillis((commons.currentGameTime ?? 0) * 1000)
+                    Duration.fromMillis(($gameCommons.currentGameTime ?? 0) * 1000)
                 )
         )}
     </p>
-    {#if pInfo.creditsDueFromPlayerTrades || pInfo.creditsDueFromPlayerBuilds}
+    {#if $playerInfo.creditsDueFromPlayerTrades || $playerInfo.creditsDueFromPlayerBuilds}
         <p class="credits-due">
             Credits due: {
-                formatNumber((pInfo.creditsDueFromPlayerTrades ?? 0) + (pInfo.creditsDueFromPlayerBuilds ?? 0), 'Cr')
+                formatNumber(($playerInfo.creditsDueFromPlayerTrades ?? 0) + ($playerInfo.creditsDueFromPlayerBuilds ?? 0), 'Cr')
             }{
-                #if pInfo.creditsDueFromPlayerTrades && !pInfo.creditsDueFromPlayerBuilds
+                #if $playerInfo.creditsDueFromPlayerTrades && !$playerInfo.creditsDueFromPlayerBuilds
             }{' '}(trades){/if}{
-                #if !pInfo.creditsDueFromPlayerTrades && pInfo.creditsDueFromPlayerBuilds
+                #if !$playerInfo.creditsDueFromPlayerTrades && $playerInfo.creditsDueFromPlayerBuilds
             }{' '}(builds){/if}
         </p>
-        {#if pInfo.creditsDueFromPlayerTrades && pInfo.creditsDueFromPlayerBuilds}
+        {#if $playerInfo.creditsDueFromPlayerTrades && $playerInfo.creditsDueFromPlayerBuilds}
             <p class="credits-due">
-                {#if pInfo.creditsDueFromPlayerTrades}
-                    Trades: {formatNumber(pInfo.creditsDueFromPlayerTrades ?? 0, 'Cr')}{'\n'}
+                {#if $playerInfo.creditsDueFromPlayerTrades}
+                    Trades: {formatNumber($playerInfo.creditsDueFromPlayerTrades ?? 0, 'Cr')}{'\n'}
                 {/if}
-                {#if pInfo.creditsDueFromPlayerBuilds}
-                    Builds: {formatNumber(pInfo.creditsDueFromPlayerBuilds ?? 0, 'Cr')}
+                {#if $playerInfo.creditsDueFromPlayerBuilds}
+                    Builds: {formatNumber($playerInfo.creditsDueFromPlayerBuilds ?? 0, 'Cr')}
                 {/if}
             </p>
         {/if}

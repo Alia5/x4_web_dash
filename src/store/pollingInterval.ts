@@ -31,6 +31,8 @@ function createPollingIntervals() {
 
 export const pollingIntervals = createPollingIntervals();
 
-Object.assign(window, {
-    X4PollingIntervals: pollingIntervals
-});
+if (window) {
+    Object.assign(window, {
+        X4PollingIntervals: pollingIntervals
+    });
+}

@@ -28,18 +28,20 @@ import { pollingIntervals } from '../store/pollingInterval';
 import { fade, slide } from 'svelte/transition';
 import { MessageCategory, type Message } from '../api/messages';
 
+import Input from './Input.svelte';
+
 import FluentMailMultiple from '~icons/fluent/mail-multiple-24-regular';
 import FluentMailWarning from '~icons/fluent/mail-warning-24-regular';
 import FluentMail from '~icons/fluent/mail-24-regular';
-import MdiClose from '~icons/mdi/close';
-import MdiSearch from '~icons/mdi/search';
 
-$: msgStore = $messages;
+import MdiSearch from '~icons/ic/baseline-search';
+
+
 $: currentGameTime = $gameCommons.currentGameTime;
 
 let searchTerm = '';
 let category: MessageCategory = MessageCategory.ALL;
-$: msgList = [...(msgStore?.messages?.messages || [])]
+$: msgList = [...($messages?.messages?.messages || [])]
     .filter(
         (msg) => msg.category === category || category === MessageCategory.ALL
     )
@@ -76,20 +78,7 @@ onDestroy(() => {
         ><FluentMail /></button
         >
     </div>
-    <div class="searchbox">
-        <input placeholder="Search..." bind:value={searchTerm} />
-        <div class="search-icon">
-            <MdiSearch />
-        </div>
-        {#if searchTerm}
-            <button
-                on:click={() => (searchTerm = '')}
-                transition:fade={{ duration: 200 }}
-            >
-                <MdiClose />
-            </button>
-        {/if}
-    </div>
+    <Input placeholder="Search..." bind:value={searchTerm} icon={MdiSearch} clearable style="font-size: 1.4em" />
     <div class="messagelist-wrapper">
         <div class="messagelist">
             {#each msgList as message (message.id)}
@@ -144,37 +133,6 @@ onDestroy(() => {
   .active-category {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
     background-color: var(--colorPrimaryActive);
-  }
-
-  .searchbox {
-    position: relative;
-    > input {
-      width: 100%;
-      padding-left: 1.6em;
-      padding-right: 1.6em;
-    }
-    > button {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      height: 100%;
-      background-color: transparent;
-      border: none;
-      box-shadow: none;
-      margin: auto;
-      padding: 0.25em;
-    }
-  }
-
-  .search-icon {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    margin: auto;
-    padding: 0.25em;
   }
 
   .messagelist-wrapper {
