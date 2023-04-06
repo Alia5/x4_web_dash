@@ -10,18 +10,27 @@ let mouseDown = false;
     
 </script>
     
-<div class="base-grid" style="--sidebarWidth: {sidebarWidth <= minPx ? '25%' : `${sidebarWidth}px`}" on:mouseup={() => mouseDown = false} on:mousemove={(ev) => {
-    if (mouseDown) {
-        sidebarWidth = ev.x;
-    // window.localStorage.setItem('sidebarWidth', `${sidebarWidth}`);
-    }
-}}>
+<div
+    class="base-grid"
+    style="--sidebarWidth: {sidebarWidth <= minPx ? '25%' : `${sidebarWidth}px`}"
+    on:mouseup={() => mouseDown = false} on:mousemove={(ev) => {
+        if (mouseDown) {
+            sidebarWidth = ev.x;
+        // window.localStorage.setItem('sidebarWidth', `${sidebarWidth}`);
+        }
+    }}>
     <SideBar />
     <div class="handle" on:mousedown={() => {
         console.log('mousedown');
         mouseDown = true;
     }}><div/></div>
-    <slot></slot>
+    <div class="main-content">
+        <div></div>
+
+        <div class="overlay-container">
+            <slot></slot>
+        </div>
+    </div>
 </div>
     
 <style lang="postcss">
@@ -46,6 +55,21 @@ let mouseDown = false;
                 width: 100%;
         }
       }
+
+    .main-content {
+        position: relative;
+        display: flex;
+        :first-child {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .overlay-container {
+        position: absolute;
+        inset: 0;
+        display: grid;
+    }
     
     </style>
     
