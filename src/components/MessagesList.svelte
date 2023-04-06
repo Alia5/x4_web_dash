@@ -97,7 +97,8 @@ onDestroy(() => {
                             ).toFormat('dD hhH mm') + 'm ago'
                         )
                             .toLowerCase()
-                            .replace(/0d /g, '')}</span
+                            .replace(/0d /g, '')
+                            .replace(/^00h /g, '')}</span
                         >
                     </button>
                 </div>
