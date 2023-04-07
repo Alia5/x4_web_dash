@@ -1,18 +1,17 @@
 /*
 Copyright 2021-2023 Peter Repukat - FlatspotSoftware
-
 Use of this source code is governed by the MIT
 license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.
 */
-
-import type { Length } from '../utils/utiltypes';
+import type { Length} from '../utils/utiltypes';
 import { api } from './apibase';
 
 
-// const basicCalls = {
-//     GetComponentData: [] as string[]
-// } as const;
+const basicCalls = {
+    // GetNumAllRaces: 0 as number,
+    // GetAllRaces: [] as RaceInfo[]
+} as const;
 
 export const ComponentsApi = {
     // ...Object.entries(basicCalls)
@@ -26,7 +25,7 @@ export const ComponentsApi = {
     //         typeof basicCalls[UpperFirst<key>] extends () => unknown
     //             ? typeof basicCalls[UpperFirst<key>]
     //             : () => Promise<typeof basicCalls[UpperFirst<key>]>
-    // }
+    // },
     // TODO: improve types... But eh... It works for now
     getComponentData: async <R extends unknown[], T extends string[] = string[]>(
         componentId: number,
