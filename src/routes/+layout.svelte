@@ -1,4 +1,12 @@
+<!--
+Copyright 2021-2023 Peter Repukat - FlatspotSoftware
+
+Use of this source code is governed by the MIT
+license that can be found in the LICENSE file or at
+https://opensource.org/licenses/MIT.
+-->
 <script lang="ts">
+import SectorMap from '../components/SectorMap.svelte';
 import SideBar from '../components/SideBar.svelte';
 const minPx = 200;
 let sidebarWidth = 
@@ -25,7 +33,7 @@ let mouseDown = false;
         mouseDown = true;
     }}><div/></div>
     <div class="main-content">
-        <div></div>
+        <SectorMap />
 
         <div class="overlay-container">
             <slot></slot>

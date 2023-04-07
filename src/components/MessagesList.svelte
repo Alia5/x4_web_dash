@@ -41,7 +41,7 @@ $: currentGameTime = $gameCommons.currentGameTime;
 
 let searchTerm = '';
 let category: MessageCategory = MessageCategory.ALL;
-$: msgList = [...($messages?.messages?.messages || [])]
+$: msgList = ($messages?.messages?.messages || [])
     .filter(
         (msg) => msg.category === category || category === MessageCategory.ALL
     )
