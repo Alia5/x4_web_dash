@@ -49,7 +49,7 @@ $: msgList = ($messages?.messages?.messages || [])
     .sort((a, b) => b.time - a.time);
 
 onMount(() => {
-    pollingIntervals.set('messages', 2000);
+    pollingIntervals.set('messages', 2667);
 });
 
 onDestroy(() => {
@@ -59,6 +59,7 @@ onDestroy(() => {
 
 <div class="messages-container">
     <div class="category-picker">
+        <h2>Messages</h2>
         <button
             title="All messages"
             on:click={() => (category = MessageCategory.ALL)}
@@ -113,6 +114,9 @@ onDestroy(() => {
     position: relative;
     display: flex;
     flex-direction: column;
+    & h2 {
+        padding: 0.5em 1em 0.5em 0;
+    }
   }
 
   .category-picker {
@@ -170,7 +174,7 @@ onDestroy(() => {
     text-align: start;
     gap: 2em;
     justify-content: space-between;
-    font-size: 0.9em;
+    font-size: 1em;
     align-items: center;
 
     & :nth-child(even) {

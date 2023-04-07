@@ -17,7 +17,7 @@ html {
     --colorPrimaryHover: #273a55;
     --colorPrimaryActive: #35598b;
     --scrollBarWidth: 0.65rem;
-    --overlayBG: hsl(0 0% 0% / 0.5);
+    --overlayBG: hsl(0 0% 0% / 0.93);
 }
 
 
@@ -109,6 +109,10 @@ input {
     &::placeholder {
         color: var(--textColor);
         opacity: 0.5;
+    }
+    &:is(:hover, :focus) {
+        box-shadow: 0 2px 6px 0 rgb(0 0 0 / 0.5);
+        background-color: var(--colorPrimaryHover);
     }
 }
 
