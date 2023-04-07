@@ -1,4 +1,4 @@
 <script lang="ts">
-import Messages from '../../components/Messages.svelte';
+import MessageDisplay from '../../components/MessageDisplay.svelte';
 </script>
-<Messages />
+<MessageDisplay />

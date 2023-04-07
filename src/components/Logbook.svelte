@@ -136,7 +136,7 @@ onDestroy(() => {
     </div>
     <div class="entrylist-wrapper">
         <div class="entrylist">
-            {#each entryList as entry, i (`${entry.title}${entry.time}${i}`)}
+            {#each entryList as entry (entry.id)}
                 <div class="entry-wrapper" transition:fade|local>
                     <p>{entry.title}</p>
                 </div>

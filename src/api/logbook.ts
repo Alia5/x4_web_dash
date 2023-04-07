@@ -18,6 +18,7 @@ export enum LogbookCategory {
 }
 
 export interface LogbookEntry {
+    id: number;
 
     'factionname': string,
     'entityname': string,
@@ -63,10 +64,16 @@ export const LogbookApi = {
                         category,
                         page
                     }
-                })).data.flat();
+                })).data.flat().map((e, idx) => {
+                    e.id = idx;
+                    return e;
+                });
                 return logbookBuffers[category];
             }
-            const newestEntries = await LogbookApi.getLogbook(category, 1);
+            const newestEntries = (await LogbookApi.getLogbook(category, 1)).map((e, idx) => {
+                e.id = idx;
+                return e;
+            });
             logbookBuffers[category].length = numLogbook - PAGE_SIZE;
             logbookBuffers[category].push(...newestEntries);
             return logbookBuffers[category];

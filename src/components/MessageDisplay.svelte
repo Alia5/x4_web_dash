@@ -34,6 +34,7 @@ sidebarContent.set(MessagesList);
             overflow: hidden;
             display: grid;
             --content-padding: 2.5em;
+            backdrop-filter: blur(4px);
         }
     
         .content {
