@@ -54,6 +54,9 @@ export function createFetcherStoreFn<T = undefined>(storeConfig: {
 
         const handlerFnForKey = (key: string) => {
             const handlerFn = async () => {
+                if (timers[key]) {
+                    clearTimeout(timers[key]);
+                }
                 try {
                     await handlers[key as keyof typeof storeConfig]();
                 } catch (e) {
