@@ -15,7 +15,12 @@ import { logbook } from '../store/logbook';
 import Input from './Input.svelte';
 
 import MdiSearch from '~icons/ic/baseline-search';
+import Coins from '~icons/majesticons/coins-line';
+import Person from '~icons/ic/baseline-person';
 import { fade } from 'svelte/transition';
+import { Duration } from 'luxon';
+
+import { formatNumber } from '../utils/x4utils';
 
 let searchTerm = '';
 let category: LogbookCategory = LogbookCategory.ALL;
@@ -39,11 +44,11 @@ $: filteredEntries = ($logbook?.logbookEntries || []).filter(
                 entry.text.toLowerCase().includes(searchTerm.toLowerCase()))
 );
 $: entryList = (() => {
-    const start = filteredEntries.length -(PAGE_SIZE * page);
+    const start = filteredEntries.length - PAGE_SIZE * page;
     if (start < 0) {
         return (filteredEntries || []).slice(0, -start).reverse();
     }
-    return (filteredEntries || []).slice(start,  start+PAGE_SIZE).reverse();
+    return (filteredEntries || []).slice(start, start + PAGE_SIZE).reverse();
 })();
 
 onMount(() => {
@@ -58,48 +63,13 @@ onDestroy(() => {
 <div class="wrapper">
     <h2>Logbook</h2>
     <div class="category-picker">
-        <button
-            title="All"
-            on:click={() => (category = LogbookCategory.ALL)}
-            class:active-category={category === LogbookCategory.ALL}
-        >{LogbookCategory.ALL}</button
-        >
-        <button
-            title="General"
-            on:click={() => (category = LogbookCategory.GENERAL)}
-            class:active-category={category === LogbookCategory.GENERAL}
-        >{LogbookCategory.GENERAL}</button
-        >
-        <button
-            title="Missions"
-            on:click={() => (category = LogbookCategory.MISSIONS)}
-            class:active-category={category === LogbookCategory.MISSIONS}
-        >{LogbookCategory.MISSIONS}</button
-        >
-        <button
-            title="News"
-            on:click={() => (category = LogbookCategory.NEWS)}
-            class:active-category={category === LogbookCategory.NEWS}
-        >{LogbookCategory.NEWS}</button
-        >
-        <button
-            title="Alerts"
-            on:click={() => (category = LogbookCategory.ALERTS)}
-            class:active-category={category === LogbookCategory.ALERTS}
-        >{LogbookCategory.ALERTS}</button
-        >
-        <button
-            title="upkeep"
-            on:click={() => (category = LogbookCategory.UPKEEP)}
-            class:active-category={category === LogbookCategory.UPKEEP}
-        >{LogbookCategory.UPKEEP}</button
-        >
-        <button
-            title="tips"
-            on:click={() => (category = LogbookCategory.TIPS)}
-            class:active-category={category === LogbookCategory.TIPS}
-        >{LogbookCategory.TIPS}</button
-        >
+        {#each Object.values(LogbookCategory) as c}
+            <button
+                title={c}
+                on:click={() => (category = c)}
+                class:active-category={category === c}>{c}</button
+            >
+        {/each}
     </div>
     <div class="search-wrapper">
         <Input
@@ -114,7 +84,7 @@ onDestroy(() => {
                 placeholder=""
                 type="number"
                 min="1"
-                max="{Math.ceil(filteredEntries.length / PAGE_SIZE)}"
+                max={Math.ceil(filteredEntries.length / PAGE_SIZE)}
                 bind:value={pageString}
                 on:change={() => {
                     const parsed = parseInt(pageString);
@@ -127,10 +97,10 @@ onDestroy(() => {
                 }}
                 style="text-align: end;"
             />
-            <div style="position: absolute; inset: 0 auto 0 0.5em; display: grid; place-items: center;">
-                <p>
-                    Page:
-                </p>
+            <div
+                style="position: absolute; inset: 0 auto 0 0.5em; display: grid; place-items: center;"
+            >
+                <p>Page:</p>
             </div>
         </div>
     </div>
@@ -138,7 +108,42 @@ onDestroy(() => {
         <div class="entrylist">
             {#each entryList as entry (entry.id)}
                 <div class="entry-wrapper" transition:fade|local>
-                    <p>{entry.title}</p>
+                    <div class="logbook-title">
+                        <h3>{entry.title}</h3>
+                        <span
+                        >{(
+                            Duration.fromMillis(
+                                ((currentGameTime || 0) - entry.time) * 1000
+                            ).toFormat('dD hhH mm') + 'm ago'
+                        )
+                            .toLowerCase()
+                            .replace(/0d /g, '')
+                            .replace(/^00h /g, '')}</span
+                        >
+                    </div>
+                    <div class="logbook-text"><p>{entry.text}</p></div>
+                    <div class="logbook-footer">
+                        <span>
+                            {#if entry.factionname || entry.entityname}
+                                <Person />
+                                {#if entry.factionname}
+                                    {entry.factionname}
+                                {/if}
+                                {#if entry.factionname && entry.entityname}
+                                    {' - '}
+                                {/if}
+                                {#if entry.entityname}
+                                    {entry.entityname}
+                                {/if}
+                            {/if}
+                        </span>
+                        <span>
+                            {#if entry.money >= 1}
+                                <Coins />
+                                {formatNumber(Math.trunc(entry.money ?? 0), 'Cr')}
+                            {/if}
+                        </span>
+                    </div>
                 </div>
             {/each}
         </div>
@@ -196,11 +201,55 @@ onDestroy(() => {
     flex-direction: column;
     padding-right: var(--scrollBarWidth);
     width: 100%;
+    gap: 0.5em;
   }
 
   .entry-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    margin: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid rgb(255 255 255 / 0.4);
+  }
+
+  .logbook-title {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: space-between;
+    & :nth-child(even) {
+      text-align: end;
+      white-space: nowrap;
+      font-size: 0.8em;
+      opacity: 0.7;
+    }
+  }
+
+  .logbook-text {
+    opacity: 0.9;
+    padding: 0.5em;
+  }
+
+  .logbook-footer {
+    opacity: 0.7;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    font-size: 0.9em;
+    justify-content: space-between;
+    & span {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      :global svg {
+        width: 1.5em;
+        height: 1.5em;
+      }
+    }
+    & :nth-child(even) {
+      text-align: end;
+      white-space: nowrap;
+    }
   }
 </style>
